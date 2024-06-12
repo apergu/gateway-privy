@@ -12,7 +12,7 @@ pipeline {
     // Repository
     // def GIT_CREDENTIAL = "git.dev1.my.id"
     def GIT_HASH = sh(returnStdout: true, script: 'git log -1 --pretty=format:"%h"').trim()
-    DOCKERHUB_CREDENTIALS = credentials('dockerhub')
+    // DOCKERHUB_CREDENTIALS = credentials('dockerhub')
   }
 
   stages {
@@ -47,13 +47,15 @@ pipeline {
         script {
           FAILED_STAGE=env.STAGE_NAME
           echo "RELEASE"
-        }
 
-        sh label: 'STEP RELEASE', script:
-        """
-          echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin
-          docker push apergudev/gateway-middleware:latest
-        """
+          withDockerRegistry([ credentialsId: "dockerhub", url: "" ]){
+                // dockerImage.push()
+                dockerImage.push("latest")
+                dockerImage.push("dev")
+                dockerImage.push("staging")
+                // dockerImage.push(env.BRANCH_NAME)
+          }
+        }
       }
     }
   }
