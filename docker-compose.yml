@@ -1,0 +1,18 @@
+version: '3'
+services:
+    aczd:
+        image: apergudev/gateway-privy:latest
+        container_name: gateway
+        restart: always
+        ports:
+            - "9002:9002"
+        environment:
+            APP_NAME: activecampaign_zendesk-module
+            DB_CONNECTION: mysql
+            DB_HOST: 127.0.0.1
+            DB_PORT: 3306
+            DB_DATABASE: gateway
+            DB_USERNAME: root
+            DB_PASSWORD: secret
+            BASIC_AUTH_USERNAME: pR1vY
+            BASIC_AUTH_PASSWORD: pa55w0rd@pR1vY
