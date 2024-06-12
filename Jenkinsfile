@@ -26,6 +26,7 @@ pipeline {
         // Install Script
         sh label: 'Preparation Script', script:
         """
+            curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
             composer update
         """
       }
